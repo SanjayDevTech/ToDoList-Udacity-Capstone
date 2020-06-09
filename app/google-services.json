@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1030884706172",
+    "firebase_url": "https://todo-list-sanjay.firebaseio.com",
+    "project_id": "todo-list-sanjay",
+    "storage_bucket": "todo-list-sanjay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030884706172:android:84ea80a1723be4ee48c6f9",
+        "android_client_info": {
+          "package_name": "com.sanjay.udacity.todolist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030884706172-5864d0t7vatv4fk5ml0n4mc3i0bkfg3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVFZlPD-VM7qnxPjpldZPrD50KyEVzFdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030884706172-5864d0t7vatv4fk5ml0n4mc3i0bkfg3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

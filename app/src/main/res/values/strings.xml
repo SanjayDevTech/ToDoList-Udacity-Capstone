@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ToDo List</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="notes_title_hint">Enter Title Here</string>
+    <string name="notes_body_hint">Take Notes</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="add_your_tasks">Add your tasks</string>
+    <string name="add_task_list_button">Add Task List Button</string>
+    <string name="edit">Edit</string>
+    <string name="delete_all">Delete all</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="configure">Configure</string>
+</resources>
