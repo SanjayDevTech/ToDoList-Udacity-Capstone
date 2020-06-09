@@ -7,19 +7,20 @@ import android.widget.RemoteViews;
 
 import com.sanjay.udacity.todolist.R;
 
+import static com.sanjay.udacity.todolist.TasksOverview.LISTS;
+
 /**
  * Implementation of App Widget functionality.
- * App Widget Configuration implemented in {@link ListsWidgetProviderConfigureActivity ListsWidgetProviderConfigureActivity}
  */
-public class ListsWidgetProvider extends AppWidgetProvider {
+public class TasksListWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = ListsWidgetProviderConfigureActivity.loadTitlePref(context, appWidgetId);
+
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.lists_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.tasks_list_widget);
+        views.setTextViewText(R.id.appwidget_text, LISTS);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -30,14 +31,6 @@ public class ListsWidgetProvider extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-    }
-
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        // When the user deletes the widget, delete the preference associated with it.
-        for (int appWidgetId : appWidgetIds) {
-            ListsWidgetProviderConfigureActivity.deleteTitlePref(context, appWidgetId);
         }
     }
 

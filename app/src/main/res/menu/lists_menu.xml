@@ -13,4 +13,9 @@
         android:title="@string/delete_all"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/add_to_widget"
+        android:title="@string/add_to_widget"
+        app:showAsAction="never" />
+
 </menu>

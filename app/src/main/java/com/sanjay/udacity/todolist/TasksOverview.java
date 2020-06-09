@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -27,19 +30,23 @@ import com.sanjay.udacity.todolist.databinding.ActivityTasksOverviewBinding;
 import com.sanjay.udacity.todolist.db.ListEntity;
 import com.sanjay.udacity.todolist.db.TaskEntity;
 import com.sanjay.udacity.todolist.viewmodel.ViewModel;
+import com.sanjay.udacity.todolist.widget.TasksListWidget;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class TasksOverview extends AppCompatActivity implements ListsAdapter.deleteList{
+    public static StringBuilder LISTS = new StringBuilder("Your lists appear here");
     final String TAG = TasksOverview.class.getSimpleName();
     private ActivityTasksOverviewBinding binding;
     private int id;
     private String title;
     private ViewModel viewModel;
     private ListsAdapter listsAdapter;
+    private List<ListEntity> listEntities = new ArrayList<>();
     private FirebaseAnalytics firebaseAnalytics;
+    private AppWidgetProvider appWidgetProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +77,10 @@ public class TasksOverview extends AppCompatActivity implements ListsAdapter.del
         binding.listsListView.setAdapter(listsAdapter);
         listsAdapter.setListItems(new ArrayList<>());
         viewModel = new ViewModelProvider(this).get(ViewModel.class);
-        viewModel.getAllListsByTaskId(id).observe(this, listEntities -> listsAdapter.setListItems(listEntities));
+        viewModel.getAllListsByTaskId(id).observe(this, listEntities -> {
+            this.listEntities = listEntities;
+            listsAdapter.setListItems(listEntities);
+        });
         viewModel.getTasksById(id).observe(this, this::setUpTitle);
 
         binding.addButton.setOnClickListener(v -> {
@@ -147,6 +157,10 @@ public class TasksOverview extends AppCompatActivity implements ListsAdapter.del
                 viewModel.deleteAllListsByTaskId(id);
                 break;
 
+            case R.id.add_to_widget:
+                addToWidget(listEntities);
+                break;
+
             case android.R.id.home:
                 finish();
                 break;
@@ -154,6 +168,27 @@ public class TasksOverview extends AppCompatActivity implements ListsAdapter.del
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void addToWidget(List<ListEntity> listEntities) {
+        LISTS = new StringBuilder();
+        for (int i = 0; i < listEntities.size(); i++) {
+
+            LISTS.append(listEntities.get(i).getTitle());
+
+            if (i < listEntities.size() - 1) {
+                LISTS.append("\n\n");
+            }
+        }
+        Intent intent = new Intent(this, TasksListWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(this)
+                .getAppWidgetIds(new ComponentName(this, TasksListWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
+        firebaseAnalyticsLogEvent("3","Added to widget");
+        Toast.makeText(this, "Added to widget!!!", Toast.LENGTH_SHORT).show();
+    }
+
     private void alertForEditTask() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Edit Task");
